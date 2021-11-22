@@ -16,8 +16,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
 		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-	{% comment %}
-	<link href="css/style.css" rel="stylesheet"> {% endcomment %}
+	<!-- <link href="./style.css" rel="stylesheet"> -->
 </head>
 
 <body>
@@ -61,10 +60,7 @@
 								<a class="dropdown-item" href="{% url 'myapp:post_create' %}">新規投稿</a>
 							</li>
 							<li>
-								<a class="dropdown-item" href="#">Another action</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="#">Something else here</a>
+								<a class="dropdown-item" href="{% url 'myapp:post_list' %}">投稿一覧</a>
 							</li>
 						</ul>
 					</li>
