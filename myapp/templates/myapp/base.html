@@ -46,8 +46,29 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/admin" target="_blank">管理画面へ</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Projects</a>
+					<!-- Dropdown -->
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+							data-mdb-toggle="dropdown" aria-expanded="false">
+							Account
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							{% if request.user.is_authenticated %}
+							<li>
+								<a class="dropdown-item" href="">{{ request.user }}</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{% url 'myapp:logout' %}">ログアウト</a>
+							</li>
+							{% else %}
+							<li>
+								<a class="dropdown-item" href="{% url 'myapp:login' %}">ログイン</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{% url 'myapp:signup' %}">ユーザ登録</a>
+							</li>
+							{% endif %}
+						</ul>
 					</li>
 					<!-- Dropdown -->
 					<li class="nav-item dropdown">
