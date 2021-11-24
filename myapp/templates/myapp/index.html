@@ -1,6 +1,7 @@
 {% extends 'myapp/base.html' %}
 
 {% block content %}
+<br>
 <div class="jumbotron jumbotron-fluid">
 	<div class="container">
 		<h1 class="display-4">My Blog</h1>
@@ -19,7 +20,8 @@
 				</div>
 
 				<div class="card-body">
-					<h5 class="card-title">{{ item.title }}<small>{{ item.author }}</small></h5>
+					<h4 class="card-title">{{ item.title }}<small>{{ item.author }}</small></h4>
+					<p>{{ item.category }}</p>
 					<p class="card-text">{{ item.content }}</p>
 					<a href="{% url 'myapp:post_detail' item.id %}" type="button"
 						class="btn btn-light-blue btn-md">もっと読む</a>

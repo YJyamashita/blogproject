@@ -2,7 +2,7 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, render, resolve_url
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView, DeleteView, ListView
-from .models import Post, Like
+from .models import Post, Like, Category
 from django.urls import reverse_lazy
 from .forms import PostForm, LoginForm, SignUpForm
 from django.contrib import messages
@@ -110,3 +110,7 @@ def Like_add(request, post_id):
 
     messages.success(request, 'お気に入りに追加しました！')
     return redirect('myapp:post_detail', post.id)
+
+
+class CategoryList(ListView):
+    model = Category
