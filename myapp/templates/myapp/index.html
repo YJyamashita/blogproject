@@ -16,7 +16,14 @@
 			<div class="card mb-4">
 
 				<div class="view overlay">
+					{% if item.thumbnail %}
+					<img src="{{ item.thumbnail.url }}" class="card-img-top" alt="{{ item.title }}" />
+					{% else %}
 					<img src="https://mdbootstrap.com/img/new/standard/city/044.jpg" class="card-img-top" alt="..." />
+					{% endif %}
+					<a href="{% url 'myapp:post_detail' item.id %}">
+						<div class="mask rgba-white-slight"></div>
+					</a>
 				</div>
 
 				<div class="card-body">
