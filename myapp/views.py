@@ -1,14 +1,23 @@
 from django.http.response import HttpResponseRedirect
-from django.shortcuts import render, resolve_url
+from django.shortcuts import redirect, render, resolve_url
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView, DeleteView, ListView
-from .models import Post
+from .models import Post, Like
 from django.urls import reverse_lazy
 from .forms import PostForm, LoginForm, SignUpForm
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import login
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
+
+
+class OnlyMyPostMixin(UserPassesTestMixin):
+    raise_exception = True
+
+    def test_func(self):
+        post = Post.objects.get(id=self.kwargs['pk'])
+        return post.author == self.request.user
 
 
 class Index(TemplateView):
@@ -41,7 +50,7 @@ class PostDetail(DetailView):
     model = Post
 
 
-class PostUpdate(LoginRequiredMixin, UpdateView):
+class PostUpdate(OnlyMyPostMixin, UpdateView):
     model = Post
     form_class = PostForm
 
@@ -50,7 +59,7 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
         return resolve_url('myapp:post_detail', pk=self.kwargs['pk'])
 
 
-class PostDelete(LoginRequiredMixin, DeleteView):
+class PostDelete(OnlyMyPostMixin, DeleteView):
     model = Post
 
     def get_success_url(self):
@@ -85,3 +94,19 @@ class SignUp(CreateView):
         self.object = user
         messages.info(self.request, 'ユーザー登録をしました。')
         return HttpResponseRedirect(self.get_success_url())
+
+
+@login_required
+def Like_add(request, post_id):
+    post = Post.objects.get(id=post_id)
+    is_liked = Like.objects.filter(user=request.user, post=post_id).count()
+    if is_liked > 0:
+        messages.info(request, 'すでにお気に入りに追加済みです。')
+        return redirect('myapp:post_detail', post_id)
+    like = Like()
+    like.user = request.user
+    like.post = post
+    like.save()
+
+    messages.success(request, 'お気に入りに追加しました！')
+    return redirect('myapp:post_detail', post.id)
