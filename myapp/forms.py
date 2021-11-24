@@ -31,3 +31,11 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
+
+
+class SearchForm(forms.Form):
+    freeword = forms.CharField(
+        min_length=1, max_length=30, label='', required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
