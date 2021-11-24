@@ -2,14 +2,15 @@
 
 {% block content %}
 <div class="row">
-	<div class="col-md-9">
+	<div class="col-md-12">
 		<br>
 		<h2>Post一覧</h2>
 		<br>
 		<table class="table">
 			<thead>
-				<tr>
+				<tr>	
 					<th>タイトル</th>
+					<th>カテゴリ</th>
 					<th>内容</th>
 					<th>作成日時</th>
 					<th>更新日時</th>
@@ -19,6 +20,7 @@
 				{% for item in post_list %}
 				<tr>
 					<td><a href="{% url 'myapp:post_detail' item.pk %}">{{ item.title }}</a></td>
+					<td>{{ item.category }}</td>
 					<td>{{ item.content }}</td>
 					<td>{{ item.created_at }}</td>
 					<td>{{ item.updated_at }}</td>
